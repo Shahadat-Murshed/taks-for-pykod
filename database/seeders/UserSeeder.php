@@ -19,17 +19,5 @@ class UserSeeder extends Seeder
             'role' => UserRole::Admin,
             'password' => bcrypt('password'),
         ]);
-        User::factory()->create([
-            'name' => 'Admin Pranto',
-            'email' => 'pranto@pykod.com',
-            'role' => UserRole::Admin,
-            'password' => bcrypt('password'),
-        ]);
-        User::factory()->create([
-            'name' => 'Shahadat Murshed',
-            'email' => 'shahadat@gmail.com',
-            'role' => UserRole::Admin,
-            'password' => bcrypt('thaicho'),
-        ]);
     }
 }
