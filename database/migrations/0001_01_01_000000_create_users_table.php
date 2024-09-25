@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\User\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', UserRole::values())->default(UserRole::Staff);
+            $table->boolean('is_active')->default(1);
             $table->rememberToken();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
 
