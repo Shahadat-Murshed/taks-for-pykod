@@ -59,7 +59,9 @@
                     </div>
                     <div class="row">
                         <div class="col-6 ms-auto d-flex justify-content-end">
-                            <button type="submit" class="btn btn-outline-custom">Submit</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-outline-danger me-2"><i class="fa-solid fa-arrow-left"></i>
+                                Back</a>
+                            <button type="submit" class="btn btn-outline-custom">Update</button>
                         </div>
                     </div>
                 </form>

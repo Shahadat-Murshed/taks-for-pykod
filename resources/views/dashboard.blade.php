@@ -4,6 +4,6 @@
 @section('content')
     <div>
         <h1 class="fw-bold">Hi {{ Auth::user()->name }}</h1>
-        <p class="fw-bold">Welcome to the Admin Dashboard</p>
+        <p class="fw-bold">Welcome to the dashboard</p>
     </div>
 @endsection
