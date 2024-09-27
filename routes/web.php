@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/restore/{id}', [ProjectController::class, 'restore'])->name('projects.restore');
     Route::post('/projects/restore-multiple', [ProjectController::class, 'restoreMultiple'])->name('projects.restore.multiple');
     Route::resource('/projects', ProjectController::class);
+
+    Route::get('/users', UserController::class)->name('users.index')->middleware('role:admin');
 });
 
 require __DIR__ . '/auth.php';

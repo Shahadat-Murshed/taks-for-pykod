@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Create a project')
+@section('title', 'Edit project')
 
 
 @section('content')
@@ -43,8 +43,7 @@
                             </div>
 
                             <div class="form-floating">
-                                <textarea class="form-control fw-bold" style="color: #004165" name="description" id="description" placeholder="description" rows="4"
-                                    style="height: 160px">{{ $project->description }}</textarea>
+                                <textarea class="form-control fw-bold" style="color: #004165; height: 160px;" name="description" id="description" placeholder="description">{{ $project->description }}</textarea>
                                 <label for="description">Description of the project</label>
                             </div>
                         </div>

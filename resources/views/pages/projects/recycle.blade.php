@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Projects')
+@section('title', 'Projects Recycle Bin')
 @section('content')
     <div>
         <h1 class="display-6 fw-bold mb-5">List of Projects</h1>

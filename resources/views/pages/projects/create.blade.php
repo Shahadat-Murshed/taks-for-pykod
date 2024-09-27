@@ -39,8 +39,7 @@
                             </div>
 
                             <div class="form-floating">
-                                <textarea class="form-control fw-bold" style="color: #004165" name="description" id="description" placeholder="description" rows="4"
-                                    style="height: 160px">{{ old('description') }}</textarea>
+                                <textarea class="form-control fw-bold" style="color: #004165;height: 160px;" name="description" id="description" placeholder="description">{{ old('description') }}</textarea>
                                 <label for="description">Description of the project</label>
                             </div>
                         </div>

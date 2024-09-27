@@ -9,8 +9,10 @@
         <li>
             <a href="{{ route('projects.deleted') }}"><i class="fa-solid fa-recycle"></i> <span>Recycle Bin</span></a>
         </li>
-        <li>
-            <a href="#"><i class="fas fa-cogs"></i> <span>Settings</span></a>
-        </li>
+        @if (Auth::user()->role === 'admin')
+            <li>
+                <a href="{{ route('users.index') }}"><i class="fa-solid fa-user"></i></i> <span>Users</span></a>
+            </li>
+        @endif
     </ul>
 </nav>
