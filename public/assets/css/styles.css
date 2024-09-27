@@ -135,11 +135,11 @@ form {
     max-width: 100%;
 }
 
-button.btn-outline-custom {
+.btn-outline-custom {
     border: 1px solid #004165;
     color: #004165;
 }
-button.btn-outline-custom:hover {
+.btn-outline-custom:hover {
     border: 1px solid #004165;
     background-color: #004165;
     color: white;

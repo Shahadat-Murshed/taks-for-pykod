@@ -7,7 +7,7 @@
             <a href="{{ route('projects.index') }}"><i class="fa-solid fa-list-check"></i> <span>Projects</span></a>
         </li>
         <li>
-            <a href="#"><i class="fas fa-chart-line"></i> <span>Dashboard</span></a>
+            <a href="{{ route('projects.deleted') }}"><i class="fa-solid fa-recycle"></i> <span>Recycle Bin</span></a>
         </li>
         <li>
             <a href="#"><i class="fas fa-cogs"></i> <span>Settings</span></a>

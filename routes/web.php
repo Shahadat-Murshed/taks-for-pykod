@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/projects/deleted-projects', [ProjectController::class, 'deletedList'])->name('projects.deleted');
+    Route::get('/projects/restore/{id}', [ProjectController::class, 'restore'])->name('projects.restore');
     Route::resource('/projects', ProjectController::class);
 });
 

@@ -26,7 +26,7 @@ trait HasFile
         return "{$publicLocation}/{$name}";
     }
 
-    private function removeImage($file): bool
+    private function removefile($file): bool
     {
         if ($file) {
             return !file_exists($file) ?: unlink(public_path($file));

@@ -9,6 +9,8 @@ use App\Models\Project\Project;
 use App\Models\User;
 use App\Traits\File\HasFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -18,7 +20,35 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        dd('Hello');
+        $userRole = Auth::user()->role;
+        $projects = Project::with('users:id,name')
+            ->when($userRole === "admin", function ($query) {
+                return $query;
+            }, function ($query) {
+                return $query->whereHas('users', function ($subquery) {
+                    $subquery->where('users.id', Auth::id());
+                });
+            })
+            ->orderByDesc('id')
+            ->get();
+
+        return view('pages.projects.index', compact('projects'));
+    }
+    public function deletedList()
+    {
+        $userRole = Auth::user()->role;
+        $projects = Project::onlyTrashed()->with('users:id,name')
+            ->when($userRole === "admin", function ($query) {
+                return $query;
+            }, function ($query) {
+                return $query->whereHas('users', function ($subquery) {
+                    $subquery->where('users.id', Auth::id());
+                });
+            })
+            ->orderByDesc('id')
+            ->get();
+
+        return view('pages.projects.recycle', compact('projects'));
     }
 
     /**
@@ -56,6 +86,7 @@ class ProjectController extends Controller
         $project = Project::create([...$validatedData, 'created_by' => auth()->id()]);
         $project->users()->attach($user->id, ['assigned_by' => auth()->id()]);
 
+        notyf()->success('Project Created Successfully');
         return redirect()->route('projects.index');
     }
 
@@ -83,11 +114,35 @@ class ProjectController extends Controller
         //
     }
 
+    public function restore(string $id)
+    {
+        $project = Project::withTrashed()->findOrFail($id);
+        $project->restore();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Project restored successfully!',
+            ],
+            Response::HTTP_OK
+        );
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        $project->delete();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Project deleted successfully!',
+            ],
+            Response::HTTP_OK
+        );
     }
 }

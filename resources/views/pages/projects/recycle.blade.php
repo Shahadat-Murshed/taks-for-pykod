@@ -43,10 +43,7 @@
                                 </td>
                                 <td class="text-center fw-bold">
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('projects.edit', $project->id) }}">
-                                            <i class="fa-solid fa-pen-to-square me-3" style="color:blue; font-size:20px"></i>
-                                        </a>
-                                        <a href="{{ route('projects.destroy', $project->id) }}" class="delete">
+                                        <a href="{{ route('projects.restore', $project->id) }}" class="restore">
                                             <i class="fa-regular fa-trash-can" style="color: red; font-size:20px"></i>
                                         </a>
                                     </div>
