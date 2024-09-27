@@ -6,14 +6,13 @@ use App\Enums\Project\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectUpdateRequest;
-use App\Mail\ProjectCreated;
+use App\Jobs\SendMailJob;
 use App\Models\Project\Project;
 use App\Models\User;
 use App\Traits\File\HasFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -89,8 +88,7 @@ class ProjectController extends Controller
         $project = Project::create([...$validatedData, 'created_by' => auth()->id()]);
         $project->users()->attach($user->id, ['assigned_by' => auth()->id()]);
 
-
-        Mail::to($admin->email)->send(new ProjectCreated($admin->name, $project->name, Auth::user()->name));
+        dispatch(new SendMailJob($admin->email, $admin->name, $project->name, Auth::user()->name));
 
         notyf()->success('Project Created Successfully');
         return redirect()->route('projects.index');
