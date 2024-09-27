@@ -32,7 +32,7 @@
                                     <td class="fw-bold">{{ $project->name }}</td>
                                     <td class="fw-bold">{{ $project->description }}</td>
                                     <td class="fw-bold text-center">
-                                        <img src="{{ asset($project->file) }}" alt="Not an Image" class="img" width="auto" height="80px">
+                                        <img src="{{ asset($project->file) }}" alt="not an image" class="img" width="auto" height="80px">
                                     </td>
                                     <td class="fw-bold text-center">
                                         @if ($project->status === 'active')

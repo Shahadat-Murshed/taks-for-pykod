@@ -13,16 +13,17 @@
                     <div class="row">
                         <div class="col col-12 col-md-6 col-lg-6 col-xl-6 mb-3">
                             <div class="form-floating mb-3">
-                                <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}"
-                                    placeholder="Name" required>
+                                <input class="form-control fw-bold" style="color: #004165" type="text" name="name" id="name"
+                                    value="{{ old('name') }}" placeholder="Name" required>
                                 <label for="name">Name of the project</label>
                             </div>
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="staff" style="color: #004165; font-weight: 600;">Assign Staff</label>
+                                <label class="input-group-text" for="staff" style="color: #004165; font-weight: 600;">Assign
+                                    Staff</label>
                                 <select class="form-select" id="staff" name="staff">
                                     <option selected>Choose...</option>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option class="fw-bold" style="color: #004165" value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
 
                                 </select>
@@ -32,13 +33,14 @@
                                 <select class="form-select" id="status" name="status">
                                     <option selected>Choose...</option>
                                     @foreach ($statuses as $key => $status)
-                                        <option value="{{ $status }}">{{ $key }}</option>
+                                        <option class="fw-bold" style="color: #004165" value="{{ $status }}">{{ $key }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-floating">
-                                <textarea class="form-control" name="description" id="description" placeholder="description" rows="4" style="height: 160px">{{ old('description') }}</textarea>
+                                <textarea class="form-control fw-bold" style="color: #004165" name="description" id="description" placeholder="description" rows="4"
+                                    style="height: 160px">{{ old('description') }}</textarea>
                                 <label for="description">Description of the project</label>
                             </div>
                         </div>

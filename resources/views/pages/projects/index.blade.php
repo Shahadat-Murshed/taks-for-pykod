@@ -15,7 +15,7 @@
                 <table class="table" id="projectsTable">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th class="text-start">Sl.</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th class="text-center">File</th>
@@ -26,11 +26,11 @@
                     <tbody>
                         @foreach ($projects as $project)
                             <tr>
-                                <td class="fw-bold">{{ $loop->index + 1 }}</td>
+                                <td class="fw-bold text-start">{{ $loop->index + 1 }}</td>
                                 <td class="fw-bold">{{ $project->name }}</td>
                                 <td class="fw-bold">{{ $project->description }}</td>
                                 <td class="fw-bold text-center">
-                                    <img src="{{ asset($project->file) }}" alt="Not an Image" class="img" width="auto" height="80px">
+                                    <img src="{{ asset($project->file) }}" alt="not an image" class="img" width="auto" height="80px">
                                 </td>
                                 <td class="fw-bold text-center">
                                     @if ($project->status === 'active')
@@ -64,6 +64,10 @@
         $(document).ready(function() {
             $('#projectsTable').DataTable({
                 responsive: true,
+                columnDefs: [{
+                    width: '5%',
+                    targets: 0
+                }]
             });
         });
     </script>
