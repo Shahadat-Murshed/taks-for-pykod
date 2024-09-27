@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/projects/deleted-projects', [ProjectController::class, 'deletedList'])->name('projects.deleted');
     Route::get('/projects/restore/{id}', [ProjectController::class, 'restore'])->name('projects.restore');
+    Route::post('/projects/restore-multiple', [ProjectController::class, 'restoreMultiple'])->name('projects.restore.multiple');
     Route::resource('/projects', ProjectController::class);
 });
 

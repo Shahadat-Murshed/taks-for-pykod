@@ -44,7 +44,7 @@
                                 <td class="text-center fw-bold">
                                     <div class="d-flex justify-content-center">
                                         <a href="{{ route('projects.edit', $project->id) }}">
-                                            <i class="fa-solid fa-pen-to-square me-3" style="color:blue; font-size:20px"></i>
+                                            <i class="fa-solid fa-pen-to-square me-3" style="color:#004165; font-size:20px"></i>
                                         </a>
                                         <a href="{{ route('projects.destroy', $project->id) }}" class="delete">
                                             <i class="fa-regular fa-trash-can" style="color: red; font-size:20px"></i>
@@ -66,5 +66,60 @@
                 responsive: true,
             });
         });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('body').on('click', '.delete', function(event) {
+                event.preventDefault();
+
+                let deleteUrl = $(this).attr('href');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Are your sure you want to delete this?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#265df1",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: 'DELETE',
+                            url: deleteUrl,
+
+                            success: function(data) {
+
+                                if (data.status == 'success') {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        data.message,
+                                        'success'
+                                    ).then(() => {
+                                        window.location.reload();
+                                    })
+                                } else if (data.status == 'error') {
+                                    Swal.fire(
+                                        'Cant Delete',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                            }
+                        })
+                    }
+                });
+            })
+        })
     </script>
 @endpush

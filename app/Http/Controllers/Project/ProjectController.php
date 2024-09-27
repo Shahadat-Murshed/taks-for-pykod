@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Project;
 use App\Enums\Project\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\ProjectStoreRequest;
+use App\Http\Requests\Project\ProjectUpdateRequest;
 use App\Models\Project\Project;
 use App\Models\User;
 use App\Traits\File\HasFile;
@@ -103,20 +104,72 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $project = Project::with('users')->findOrFail($id);
+        $users = User::select('id', 'name')->where('role', '!=', 'admin')->get();
+        $statuses = Status::array();
+
+        return view('pages.projects.edit', compact('project', 'users', 'statuses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProjectUpdateRequest $request, string $id)
     {
-        //
+        $validatedData = $request->validated();
+        $project = Project::findOrFail($id);
+        $user = User::findOrFail($validatedData['staff']);
+
+        if (isset($validatedData['file'])) {
+            $oldFile = $project->file;
+
+            $file = $this->saveFile(
+                prefix: 'projects',
+                name: $validatedData['name'],
+                file: $validatedData['file'],
+                custom: null,
+                other: time(),
+                directory: 'projects',
+            );
+            $validatedData = [...$validatedData, 'file' => $file];
+        }
+
+        $project->update($validatedData);
+        $project->users()->detach();
+        $project->users()->attach($user->id, ['assigned_by' => auth()->id()]);
+
+        !isset($file) ?: $this->removeFile($oldFile);
+
+        notyf()->success('Project Updated Successfully');
+        return redirect()->route('projects.index');
+    }
+
+    public function restoreMultiple(Request $request)
+    {
+        $ids = $request->checked_ids;
+
+        if (empty($ids)) {
+            return response()->json(['message' => 'No project IDs provided.'], 400);
+        }
+
+        Project::withTrashed()->whereIn('id', $ids)->restore();
+
+        Project::whereIn('id', $ids)->update(['status' => 'active']);
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Projects restored successfully!',
+            ],
+            Response::HTTP_OK
+        );
     }
 
     public function restore(string $id)
     {
         $project = Project::withTrashed()->findOrFail($id);
+        $project->status = Status::ACTIVE;
+        $project->save();
         $project->restore();
 
         return response()->json(
@@ -134,6 +187,8 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         $project = Project::findOrFail($id);
+        $project->status = Status::INACTIVE;
+        $project->save();
 
         $project->delete();
 

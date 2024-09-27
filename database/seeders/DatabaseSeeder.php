@@ -17,5 +17,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
         ]);
         User::factory(20)->create();
+        $this->call([
+            ProjectSeeder::class,
+            ProjectUserSeeder::class,
+        ]);
     }
 }

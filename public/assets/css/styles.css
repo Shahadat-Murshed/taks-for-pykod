@@ -116,14 +116,14 @@ form {
     }
     .form-control {
         &:focus {
-            border-color: var(--primary-color);
+            border-color: #004165;
             outline: 0;
             box-shadow: none;
         }
     }
     .form-select {
         &:focus {
-            border-color: var(--primary-color);
+            border-color: #004165;
             outline: 0;
             box-shadow: none;
         }
@@ -133,6 +133,12 @@ form {
     width: auto;
     height: 30vh;
     max-width: 100%;
+}
+.check-box__label {
+    color: #062435;
+}
+.btn-outline-danger {
+    color: red;
 }
 
 .btn-outline-custom {
