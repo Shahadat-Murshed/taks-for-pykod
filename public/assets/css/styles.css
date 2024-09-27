@@ -31,7 +31,10 @@
 #sidebar.collapsed ul li a span {
     display: none;
 }
-
+p {
+    font-weight: 600;
+    color: #004165;
+}
 #content {
     margin-left: 250px;
     padding: 20px;
@@ -99,7 +102,48 @@ a,
         text-decoration: none;
     }
 }
+form {
+    label {
+        font-weight: 600;
+        color: #004165;
+    }
+    ::placeholder {
+        font-family: "Inter", sans-serif;
+        font-size: 0.8rem;
+    }
+    input {
+        font-family: "Inter", sans-serif;
+    }
+    .form-control {
+        &:focus {
+            border-color: var(--primary-color);
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+    .form-select {
+        &:focus {
+            border-color: var(--primary-color);
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+}
+.fixed-size {
+    width: auto;
+    height: 30vh;
+    max-width: 100%;
+}
 
+button.btn-outline-custom {
+    border: 1px solid #004165;
+    color: #004165;
+}
+button.btn-outline-custom:hover {
+    border: 1px solid #004165;
+    background-color: #004165;
+    color: white;
+}
 @media (max-width: 768px) {
     #sidebar {
         width: 0;

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status', Status::values())->default(Status::INACTIVE);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
