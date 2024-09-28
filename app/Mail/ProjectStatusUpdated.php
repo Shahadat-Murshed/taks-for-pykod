@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectCreated extends Mailable
+class ProjectStatusUpdated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,6 +19,7 @@ class ProjectCreated extends Mailable
     public function __construct(
         public $adminName,
         public $projectName,
+        public $status,
         public $userName
     ) {}
 
@@ -28,7 +29,7 @@ class ProjectCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Project Created',
+            subject: 'Project Status Updated',
         );
     }
 
@@ -38,27 +39,27 @@ class ProjectCreated extends Mailable
     public function content(): Content
     {
         $body = <<<EOD
-            <!DOCTYPE html>
-            <html lang="en">
+        <!DOCTYPE html>
+        <html lang="en">
 
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>A New project created</title>
-            </head>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Project Status Changed</title>
+        </head>
 
-            <body>
+        <body>
 
-                <p>Dear {$this->adminName},</p>
+            <p>Dear {$this->adminName},</p>
 
-                <p>A new project named: "{$this->projectName}" is created by user: "{$this->userName}"</p>
+            <p>The status of the Project: "{$this->projectName}"  is changed to "{$this->status}" by user: "{$this->userName}"</p>
 
-                <p>Thank you.</p>
+            <p>Thank you.</p>
 
-            </body>
+        </body>
 
-            </html>
-        EOD;
+        </html>
+    EOD;
 
         return new Content(
             htmlString: $body

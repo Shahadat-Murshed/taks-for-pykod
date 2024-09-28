@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\ProjectStoreRequest;
 use App\Http\Requests\Project\ProjectUpdateRequest;
 use App\Jobs\SendMailJob;
+use App\Jobs\SendMailOnStatusChangeJob;
 use App\Models\Project\Project;
 use App\Models\User;
 use App\Traits\File\HasFile;
@@ -120,7 +121,10 @@ class ProjectController extends Controller
     public function update(ProjectUpdateRequest $request, string $id)
     {
         $validatedData = $request->validated();
+
+        $admin = User::where('role', 'admin')->firstOrFail();
         $project = Project::findOrFail($id);
+        $oldStatus = $project->status;
         $user = User::findOrFail($validatedData['staff']);
 
         if (isset($validatedData['file'])) {
@@ -142,6 +146,10 @@ class ProjectController extends Controller
         $project->users()->attach($user->id, ['assigned_by' => auth()->id()]);
 
         !isset($file) ?: $this->removeFile($oldFile);
+
+        if ($oldStatus != $validatedData['status']) {
+            dispatch(new SendMailOnStatusChangeJob($admin->email, $admin->name, $project->name, Auth::user()->name, $validatedData['status']));
+        }
 
         notyf()->success('Project Updated Successfully');
         return redirect()->route('projects.index');

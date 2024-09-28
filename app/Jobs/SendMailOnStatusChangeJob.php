@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Mail\ProjectCreated;
+use App\Mail\ProjectStatusUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
 
-class SendMailJob implements ShouldQueue
+class SendMailOnStatusChangeJob implements ShouldQueue
 {
     use Queueable;
 
@@ -19,6 +19,7 @@ class SendMailJob implements ShouldQueue
         public $adminName,
         public $projectName,
         public $userName,
+        public $status
     ) {
         //
     }
@@ -28,6 +29,6 @@ class SendMailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->adminMail)->send(new ProjectCreated($this->adminName, $this->projectName, $this->userName));
+        Mail::to($this->adminMail)->send(new ProjectStatusUpdated($this->adminName, $this->projectName, $this->status, $this->userName));
     }
 }
